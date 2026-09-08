@@ -22,7 +22,7 @@ Datos II (CE 2103)**, Instituto Tecnológico de Costa Rica, II Semestre 2026.
 
 | Nombre | Carné | Rol / componente principal |
 |--------|-------|------------------------------|
-| Preko  | 2023800088 | _por definir_ |
+| Preko  | 2023800088 | Adrián Monge Mairena |
 |        |            |                |
 |        |            |                |
 |        |            |                |
