@@ -1,0 +1,37 @@
+# ---- General ----
+.DS_Store
+*.log
+.env
+.env.local
+.vscode/
+.idea/
+
+# ---- Node / React (webapp) ----
+webapp/node_modules/
+webapp/dist/
+webapp/build/
+webapp/coverage/
+webapp/playwright-report/
+webapp/test-results/
+npm-debug.log*
+
+# ---- C++ / CMake (services/*) ----
+services/**/build/
+services/**/CMakeFiles/
+services/**/CMakeCache.txt
+services/**/*.o
+services/**/*.obj
+services/**/*.exe
+services/**/*.out
+services/**/*.a
+services/**/*.so
+services/**/compile_commands.json
+services/**/coverage.info
+
+# ---- Datos locales de persistencia (no versionar) ----
+services/user-api/data/
+services/streaming-api/data/
+infra/docker/mongo-data/
+
+# ---- Load test outputs ----
+infra/loadtest/results/
