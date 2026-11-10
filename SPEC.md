@@ -295,8 +295,8 @@ El control de acceso se delega: streaming reenvía el token del usuario a
 
 | Quién | Componentes | Puntos de rúbrica |
 |-------|-------------|-------------------|
-| **Adrián** | API de usuarios (árbol B, archivo binario, REST, login/JWT) · Aplicación web (React + TS + Shaka) · Pruebas funcionales (Playwright) · Ejecución y análisis de load-tests · Paper (sin AI) | 15 + 10 + 5 + 15 = 45 |
-| **Claude (agente)** | `services/common` · API de streaming · API de metadata · Observabilidad (OTel + dashboard) · Docker Compose · Pipelines de CI · Infraestructura de redundancia V2.0 | 15 + 5 + 10 + 5 + 20 = 55 |
+| **** | API de usuarios (árbol B, archivo binario, REST, login/JWT) · Aplicación web (React + TS + Shaka) · Pruebas funcionales (Playwright) · Ejecución y análisis de load-tests · Paper (sin AI) | 15 + 10 + 5 + 15 = 45 |
+| **Adrian Monge** | `services/common` · API de streaming · API de metadata · Observabilidad (OTel + dashboard) · Docker Compose · Pipelines de CI · Infraestructura de redundancia V2.0 | 15 + 5 + 10 + 5 + 20 = 55 |
 
 Las ≥5 optimizaciones de V2.0 son compartidas: Adrián las identifica y mide
 con el dashboard (es materia del paper); se implementan en el componente que
