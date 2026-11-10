@@ -180,13 +180,16 @@ VideoPage MongoVideoRepository::list(const ListQuery& query) {
     const json filter = {
         {"$or", json::array({{{"authorId", query.viewerId}},
                              {{"visibility", "public"}, {"status", "ready"}}})}};
-    const json options = {
-        // _id desempata: sin él, videos con el mismo valor podrían repetirse entre páginas.
-        {"sort", {{query.sortField, query.ascending ? 1 : -1}, {"_id", 1}}},
-        {"skip", static_cast<std::int64_t>(query.page - 1) * query.pageSize},
-        {"limit", query.pageSize},
-        // Orden alfabético sin distinguir mayúsculas.
-        {"collation", {{"locale", "en"}, {"strength", 2}}}};
+    // ordered_json: en "sort" importa el orden de las claves y nlohmann::json las
+    // reordena alfabéticamente (pondría _id antes del campo pedido).
+    nlohmann::ordered_json sort;
+    sort[query.sortField] = query.ascending ? 1 : -1;
+    sort["_id"] = 1;  // desempata: sin él, valores iguales podrían repetirse entre páginas
+    nlohmann::ordered_json options;
+    options["sort"] = sort;
+    options["skip"] = static_cast<std::int64_t>(query.page - 1) * query.pageSize;
+    options["limit"] = query.pageSize;
+    options["collation"] = {{"locale", "en"}, {"strength", 2}};  // sin distinguir mayúsculas
 
     const Session session(pool_, database_);
     bson_error_t error;
@@ -197,7 +200,9 @@ VideoPage MongoVideoRepository::list(const ListQuery& query) {
     }
     VideoPage page;
     page.total = static_cast<std::uint64_t>(total);
-    for (const json& document : findDocuments(session, filter, options)) {
+    for (const json& document :
+         drain(mongoc_collection_find_with_opts(session.videos(), toBson(filter).get(),
+                                                parseBson(options.dump()).get(), nullptr))) {
         page.items.push_back(toVideo(document));
     }
     return page;
