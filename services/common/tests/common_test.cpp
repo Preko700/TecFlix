@@ -52,6 +52,13 @@ TEST(Jwt, SignThenVerifyReturnsSameClaims) {
     EXPECT_FALSE(verified->isService());
 }
 
+TEST(Jwt, ServiceTokenHasServiceRole) {
+    const auto verified = verifyJwt(serviceToken("streaming-api", kSecret), kSecret);
+    ASSERT_TRUE(verified);
+    EXPECT_TRUE(verified->isService());
+    EXPECT_EQ(verified->sub, "streaming-api");
+}
+
 TEST(Jwt, RejectsWrongSecret) {
     EXPECT_FALSE(verifyJwt(signJwt(sampleClaims(), kSecret), "otro", kNow));
 }

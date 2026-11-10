@@ -28,4 +28,7 @@ std::string signJwt(const Claims& claims, std::string_view secret);
 std::optional<Claims> verifyJwt(std::string_view token, std::string_view secret,
                                 std::int64_t now = std::time(nullptr));
 
+// Token de corta vida (60 s) con rol "service" para llamadas internas entre APIs.
+std::string serviceToken(const std::string& serviceName, std::string_view secret);
+
 }  // namespace tecflix

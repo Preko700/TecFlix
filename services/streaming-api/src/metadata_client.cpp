@@ -27,11 +27,6 @@ std::optional<VideoInfo> HttpMetadataClient::getVideo(const std::string& id,
 
 bool HttpMetadataClient::reportStatus(const std::string& id, const std::string& status,
                                       double durationSeconds, std::uint64_t sizeBytes) {
-    Claims service;
-    service.sub = "streaming-api";
-    service.role = "service";
-    service.exp = std::time(nullptr) + 60;
-
     nlohmann::json body = {{"status", status}};
     if (status == "ready") {
         body["durationSeconds"] = durationSeconds;
@@ -40,7 +35,7 @@ bool HttpMetadataClient::reportStatus(const std::string& id, const std::string& 
     httplib::Client client(baseUrl_);
     const auto response =
         client.Patch("/internal/videos/" + id,
-                     {{"Authorization", "Bearer " + signJwt(service, jwtSecret_)}}, body.dump(),
+                     {{"Authorization", "Bearer " + serviceToken("streaming-api", jwtSecret_)}}, body.dump(),
                      "application/json");
     return response && response->status == 200;
 }

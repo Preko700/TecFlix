@@ -75,6 +75,14 @@ std::string signJwt(const Claims& claims, std::string_view secret) {
     return signedPart + "." + base64UrlEncode(hmacSha256(secret, signedPart));
 }
 
+std::string serviceToken(const std::string& serviceName, std::string_view secret) {
+    Claims claims;
+    claims.sub = serviceName;
+    claims.role = "service";
+    claims.exp = std::time(nullptr) + 60;
+    return signJwt(claims, secret);
+}
+
 std::optional<Claims> verifyJwt(std::string_view token, std::string_view secret,
                                 std::int64_t now) {
     const auto firstDot = token.find('.');
