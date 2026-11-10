@@ -251,7 +251,21 @@ offset del registro). El árbol B es implementación propia.
 `Video = {id, title, description, topic, tags[], visibility: "public"|"private",
 status: "pending"|"processing"|"ready"|"failed", authorId, authorName,
 sizeBytes, durationSeconds, uploadedAt}`. `id` es el ObjectId de Mongo
-(24 hex). El ordenamiento y la paginación se hacen en Mongo, no en memoria.
+(24 hex). `uploadedAt` es epoch en segundos (en la webapp:
+`new Date(uploadedAt * 1000)`). El ordenamiento y la paginación se hacen en
+Mongo, no en memoria.
+
+Reglas del listado: devuelve los videos propios (en cualquier estado) y los
+públicos de otros que ya estén `ready`. Sin parámetros ordena por
+`uploadedAt` descendente; con `sort` explícito el default es ascendente.
+`pageSize` máximo 100. El orden alfabético no distingue mayúsculas.
+
+Cuota: cuentan todos los videos del usuario excepto los `failed`; borrar un
+video libera su espacio.
+
+Variables propias: `MONGO_URI` (default `mongodb://localhost:27017`),
+`MONGO_DB` (`tecflix`), `STREAMING_URL` (`http://localhost:8083`). Las pruebas
+del repositorio Mongo solo corren si se define `MONGO_TEST_URI`.
 
 ### 10.4 API de Streaming (`:8083`)
 

@@ -23,6 +23,6 @@ cmake --build build/<servicio> && ctest --test-dir build/<servicio>
 ```
 
 Dependencias en Ubuntu: `g++ cmake ninja-build libssl-dev nlohmann-json3-dev
-libcpp-httplib-dev libgtest-dev libgmock-dev gcovr ffmpeg`.
+libcpp-httplib-dev libgtest-dev libgmock-dev libmongoc-dev gcovr ffmpeg`.
 
 Contratos entre componentes: sección 10 de [`SPEC.md`](../SPEC.md).
