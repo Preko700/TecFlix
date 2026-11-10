@@ -135,7 +135,7 @@ void registerRoutes(httplib::Server& server, const Config& config, const VideoSt
     const std::string videoPath = std::string("/api/videos/") + kIdPattern;
 
     server.Post(videoPath + "/upload",
-                [&config, &store, &metadata, &queue](const httplib::Request& req,
+                [config, &store, &metadata, &queue](const httplib::Request& req,
                                                      httplib::Response& res,
                                                      const httplib::ContentReader& reader) {
                     handleUpload(req, res, reader, config, store, metadata, queue);
@@ -143,7 +143,7 @@ void registerRoutes(httplib::Server& server, const Config& config, const VideoSt
 
     // El nombre admite un solo punto y ninguna barra: no se puede salir del directorio.
     server.Get(videoPath + R"(/dash/([A-Za-z0-9_-]+\.(?:mpd|m4s)))",
-               [&config, &store, &metadata](const httplib::Request& req, httplib::Response& res) {
+               [config, &store, &metadata](const httplib::Request& req, httplib::Response& res) {
                    if (!authenticate(req, res, config.jwtSecret)) {
                        return;
                    }
@@ -157,7 +157,7 @@ void registerRoutes(httplib::Server& server, const Config& config, const VideoSt
                });
 
     server.Delete(std::string("/internal/videos/") + kIdPattern,
-                  [&config, &store](const httplib::Request& req, httplib::Response& res) {
+                  [config, &store](const httplib::Request& req, httplib::Response& res) {
                       const auto claims = authenticate(req, res, config.jwtSecret);
                       if (!claims) {
                           return;

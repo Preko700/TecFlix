@@ -13,3 +13,9 @@ target_link_libraries(streaming_core PUBLIC tecflix_common)
 
 add_executable(streaming-api src/main.cpp)
 target_link_libraries(streaming-api PRIVATE streaming_core)
+
+enable_testing()
+find_package(GTest REQUIRED)
+add_executable(streaming_tests tests/streaming_test.cpp)
+target_link_libraries(streaming_tests PRIVATE streaming_core GTest::gtest_main)
+add_test(NAME streaming_tests COMMAND streaming_tests)

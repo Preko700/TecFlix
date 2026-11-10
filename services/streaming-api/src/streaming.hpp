@@ -101,6 +101,7 @@ struct Config {
     std::string instanceId;
 };
 
+// `config` se copia; `store`, `metadata` y `queue` deben vivir más que el servidor.
 void registerRoutes(httplib::Server& server, const Config& config, const VideoStore& store,
                     MetadataClient& metadata, TranscodeQueue& queue);
 
